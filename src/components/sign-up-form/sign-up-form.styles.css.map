@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,kBAAkB,CAAA;EAEV,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,KAAK,EAAE,KAAK;CAKnB;;AATD,AAMI,kBANc,CAMd,EAAE,CAAA;EACE,MAAM,EAAE,QAAQ;CACnB",
+    "sources": [
+        "sign-up-form.styles.scss"
+    ],
+    "names": [],
+    "file": "sign-up-form.styles.css"
+}
