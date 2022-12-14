@@ -7,8 +7,10 @@ import Button from "../buttons/buttons.components"
 
 const ProductCard =(props) =>{
     const{additemstocart}  = useContext(CartContext);
+    
     function handleclick(){
        additemstocart(props.products)
+       
 
         
     }

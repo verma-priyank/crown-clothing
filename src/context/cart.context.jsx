@@ -1,3 +1,4 @@
+import { useReducer } from "react";
 import { createContext, useState, useEffect } from "react";
 
 const addCartitem = (cartitems, productToAdd) => {
@@ -47,38 +48,58 @@ export const CartContext = createContext({
   cartCount: 0,
   totalPrice:0
 });
+const INITIAL_STATE = {
+  cartCount:0,
+  totalPrice:0,
+  cartitems:[]
+}
+
+const cartReducer=(state ,action) =>{
+  const {type , payload} =action;
+  switch(type){
+    case 'SET_CART_ITEMS':
+      return {
+        ...state,
+        ...payload
+      }
+      default:
+        throw new Error(`unhandled error ${type}`)
+  }
+}
 
 const CartProvider = ({ children }) => {
   const [isCartOpen, setisCartOpen] = useState(false);
-  const [cartitems, setCartitems] = useState([]);
-  const [cartCount, setcartCount] = useState(0);
-  const [totalPrice ,settotalPrice] = useState(0)
+  
+  
+  const [state ,dispatch] = useReducer(cartReducer ,INITIAL_STATE);
 
-  useEffect(() => {
-    const newcartcount = cartitems.reduce(
+  const {cartitems , cartCount , totalPrice}= state;
+
+  const newcartCounter =(newcartitems)=>{
+    const newcartcount = newcartitems.reduce(
       (accumalator, currentelement) => accumalator + currentelement.quantity,
       0
     );
-    setcartCount(newcartcount);
-  }, [cartitems]);
-
-  useEffect(() => {
-    const newPrice = cartitems.reduce(
+    const newPrice = newcartitems.reduce(
       (accumalator, currentelement) => accumalator + (currentelement.quantity*currentelement.price),
       0
     );
-    settotalPrice(newPrice);
-  }, [cartitems]);
+    dispatch({type:"SET_CART_ITEMS" , payload:{cartitems:newcartitems ,cartCount:newcartcount,totalPrice:newPrice}})
+  }
   
   const additemstocart = (productToAdd) => {
-    return setCartitems(addCartitem(cartitems, productToAdd));
+   const newCartItems= addCartitem(cartitems, productToAdd);
+   newcartCounter(newCartItems)
+   
   };
 
   const removeitemsfromcart = (cartitemToremove) => {
-    return setCartitems(removecartitem(cartitems, cartitemToremove));
+    const newCartItems= removecartitem(cartitems, cartitemToremove);
+    newcartCounter(newCartItems)
   };
   const clearItemfromcart = (cartitemToremove) => {
-    return setCartitems(clearcartitem(cartitems, cartitemToremove));
+    const newCartItems= clearcartitem(cartitems, cartitemToremove);
+    newcartCounter(newCartItems)
   };
 
   const value = {
@@ -90,7 +111,7 @@ const CartProvider = ({ children }) => {
     removeitemsfromcart,
     clearItemfromcart,
     totalPrice,
-    settotalPrice
+   
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
