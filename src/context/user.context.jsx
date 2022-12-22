@@ -1,11 +1,16 @@
-import { type } from "@testing-library/user-event/dist/type";
-import { createContext, useState ,useEffect , useReducer } from "react";
-import { onAuthStateChangedListener  ,signOutUser} from "../utils/firebase/firebase.utils";
+
+import { createContext,  useReducer } from "react";
+
 export const UserContext = createContext({
      currentUser : "" ,
      setcurrentUser : ""
 
 })
+
+
+const INITIAL_STATE ={
+  currentUser:null
+}
 
 export const USER_ACTION_TYPE= {
   SET_CURRENT_USER: "SET_CURRENT_USER"
@@ -25,31 +30,19 @@ throw new Error(`Unexpected type ${type} in userReducer`)
 
 }
 }
-const INITIAL_STATE ={
-  currentUser:null
-}
 
 export const UserProvider =({children}) =>{
     // const[currentUser , setcurrentUser] =useState("")
     
    
-const [state , dispatch] = useReducer(userReducer,INITIAL_STATE)
-const{currentUser} = state;
-   const setcurrentUser = (user)=>{
-    dispatch({type:USER_ACTION_TYPE.SET_CURRENT_USER , payload:user})
-   }
-   const value ={currentUser ,setcurrentUser }
-  useEffect(()=>{
-      const unsubscribe = onAuthStateChangedListener(user=>{
-        console.log(user)
-        setcurrentUser(user);
-      });
-      return unsubscribe;
+// const [state , dispatch] = useReducer(userReducer,INITIAL_STATE)
+// const{currentUser} = state;
+   
+  //  const value ={currentUser  }
+ 
 
-  },[])
+    // return (<UserContext.Provider value ={value}>{children}</UserContext.Provider>
 
-    return (<UserContext.Provider value ={value}>{children}</UserContext.Provider>
-
-    )
+    // )
 }
-export default UserProvider ;
+// export default UserProvider ;
