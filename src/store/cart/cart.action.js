@@ -9,7 +9,8 @@ const createAction =(type ,payload) =>({type , payload});
         
         (cartitem) => cartitem.id === productToAdd.id
       );
-  
+    console.log(productToAdd)
+    console.log(cartitems)
     if (existingCartItems) {
       return cartitems.map((cartitem) => {
         return (cartitem.id === productToAdd.id

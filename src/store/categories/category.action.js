@@ -12,6 +12,9 @@ const createAction = (type,payload) => ({type ,payload})
 export const fetchcategoriesStart =() =>{
   return createAction(USER_ACTION_TYPE.SET_CATEGORY_START)
 }
+// export const fetchcategoriesStart =() =>{
+//   return {type:USER_ACTION_TYPE.SET_CATEGORY_START}
+// }
 export const fetchcategoriesSuccess =(categoriesArray) =>{
  return  createAction(USER_ACTION_TYPE.SET_CATEGORY_SUCCESS,categoriesArray)
 }
@@ -23,7 +26,8 @@ export const fetchcategoriesAsync = () =>
 {
  return async(dispatch) =>{
    
-    dispatch(fetchcategoriesStart());
+   //  dispatch(fetchcategoriesStart());
+   dispatch(createAction(USER_ACTION_TYPE.SET_CATEGORY_START))
     
 try{
    
