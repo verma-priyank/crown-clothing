@@ -10,8 +10,8 @@ const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const billingAmount = useSelector(selectCartprice)
-  const {displayName} = useSelector(state=>state.user.currentUser)
-  console.log(displayName)
+  const user = useSelector(state=>state.user.currentUser)
+  console.log(user)
   const [processingPayment , setisprocessingPayment] = useState(false)
   const dispatch = useDispatch();
   const paymentHandler = async (event) => {
@@ -37,7 +37,7 @@ const PaymentForm = () => {
       payment_method :{
         card : elements.getElement(CardElement) ,
         billing_details :{
-          name : displayName ? displayName:'Guest' ,
+          name : user ? user.displayName:'Guest' ,
           
           
         }
