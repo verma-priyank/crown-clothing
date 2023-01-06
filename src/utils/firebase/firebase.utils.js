@@ -62,14 +62,14 @@ export const db = getFirestore();
     const collectionRef = collection(db , 'categories');
     const q = query(collectionRef);
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot)
-    const categoryMap = querySnapshot.docs.reduce((acc,docsnapshot) =>{
-      const {title ,items} = docsnapshot.data();
-      acc[title.toLowerCase()] = items ;
-      return acc ;
+    return querySnapshot.docs.map(docSnapshot=>docSnapshot.data())
+    // const categoryMap = querySnapshot.docs.reduce((acc,docsnapshot) =>{
+    //   const {title ,items} = docsnapshot.data();
+    //   acc[title.toLowerCase()] = items ;
+    //   return acc ;
 
-    } , {});
-    return categoryMap;
+    // } , {});
+    // return categoryMap;
   }
 
 export const createUserDocumentfromAuth = async (
@@ -96,14 +96,17 @@ export const createUserDocumentfromAuth = async (
       console.log("error creating the user", error.message);
     }
   }
-  return userDocRef;
+  return userSnapshot;
 };
 
+
+// this hekps us to create a new user inside firestore
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
+// this function helps us to authenticate the user email and passward from firestore
 export const signINAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return signInWithEmailAndPassword(auth, email, password);
@@ -112,3 +115,14 @@ export const signINAuthUserWithEmailAndPassword = async (email, password) => {
 export const signOutUser = async () => signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth ,callback);
+
+export const getCurrentuser =()=>{
+  return new Promise((resolve , reject)=>{
+    const unsubscribe = onAuthStateChanged(auth ,
+      (userauth)=>{
+        unsubscribe();
+        console.log(userauth)
+        resolve(userauth)
+      } , reject)
+  })
+}

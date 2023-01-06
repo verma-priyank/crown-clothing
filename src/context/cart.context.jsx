@@ -51,16 +51,27 @@ export const CartContext = createContext({
 const INITIAL_STATE = {
   cartCount:0,
   totalPrice:0,
-  cartitems:[]
+  cartitems:[],
+  isCartOpen:false
+}
+const CART_ACTION_TYPE ={
+  SET_CART_ITEMS :'SET_CART_ITEMS',
+  SET_IS_CART_OPENS :'SET_IS_CART_OPENS'
+  
 }
 
 const cartReducer=(state ,action) =>{
   const {type , payload} =action;
   switch(type){
-    case 'SET_CART_ITEMS':
+    case  CART_ACTION_TYPE.SET_CART_ITEMS:
       return {
         ...state,
         ...payload
+      }
+    case  CART_ACTION_TYPE.SET_IS_CART_OPENS:
+      return {
+        ...state,
+        isCartOpen:payload
       }
       default:
         throw new Error(`unhandled error ${type}`)
@@ -68,12 +79,12 @@ const cartReducer=(state ,action) =>{
 }
 
 const CartProvider = ({ children }) => {
-  const [isCartOpen, setisCartOpen] = useState(false);
+  // const [isCartOpen, setisCartOpen] = useState(false);
   
   
   const [state ,dispatch] = useReducer(cartReducer ,INITIAL_STATE);
 
-  const {cartitems , cartCount , totalPrice}= state;
+  const {cartitems , cartCount , totalPrice , isCartOpen}= state;
 
   const newcartCounter =(newcartitems)=>{
     const newcartcount = newcartitems.reduce(
@@ -84,7 +95,7 @@ const CartProvider = ({ children }) => {
       (accumalator, currentelement) => accumalator + (currentelement.quantity*currentelement.price),
       0
     );
-    dispatch({type:"SET_CART_ITEMS" , payload:{cartitems:newcartitems ,cartCount:newcartcount,totalPrice:newPrice}})
+    dispatch({type:CART_ACTION_TYPE.SET_CART_ITEMS , payload:{cartitems:newcartitems ,cartCount:newcartcount,totalPrice:newPrice}})
   }
   
   const additemstocart = (productToAdd) => {
@@ -101,9 +112,12 @@ const CartProvider = ({ children }) => {
     const newCartItems= clearcartitem(cartitems, cartitemToremove);
     newcartCounter(newCartItems)
   };
+   const setisCartOpen =(bool)=>{
+    dispatch({type:CART_ACTION_TYPE.SET_IS_CART_OPENS , payload:bool})
+  }
 
   const value = {
-    isCartOpen,
+    isCartOpen ,
     setisCartOpen,
     additemstocart,
     cartitems,
