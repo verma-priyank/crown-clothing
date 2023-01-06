@@ -6,7 +6,7 @@ const BUTTON_TYPE_CLASSES ={
 }
 
 function Button ({children ,buttontype , isloading,...otherprops}){
-    console.log(isloading)
+    
     return(<div>
         <button className={`button-container ${BUTTON_TYPE_CLASSES[buttontype]}`} disabled={isloading}{...otherprops}>{isloading?<SpinnerContainer /> : children}</button>
         
