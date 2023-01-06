@@ -4,6 +4,7 @@ import "./checkout.styles.scss" ;
 import CheckoutItem from "../../components/checkout-item/checkout-item.component";
 import { useSelector } from "react-redux";
 import { selectcartItems , selectCartprice } from "../../store/cart/cart.selector";
+import PaymentForm from "../../components/payment-form/payment-form.component";
 
 function Checkout(){
     // const {cartitems , totalPrice} = useContext(CartContext);
@@ -26,7 +27,7 @@ return(
     (<CheckoutItem key={items.id} cartitem={items}/>)
    )}
    <span className="total">Total :${totalPrice} </span>
-   
+    <PaymentForm />
     </div>
 )
 

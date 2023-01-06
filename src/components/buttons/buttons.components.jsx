@@ -1,12 +1,14 @@
 import "./buttons.styles.scss"
+import { SpinnerContainer } from "../spinner/spinner.styles"
 const BUTTON_TYPE_CLASSES ={
     google:'google-sign-in',
     inverted:'inverted'
 }
 
-function Button ({children ,buttontype ,...otherprops}){
+function Button ({children ,buttontype , isloading,...otherprops}){
+    console.log(isloading)
     return(<div>
-        <button className={`button-container ${BUTTON_TYPE_CLASSES[buttontype]}`} {...otherprops}>{children}</button>
+        <button className={`button-container ${BUTTON_TYPE_CLASSES[buttontype]}`} disabled={isloading}{...otherprops}>{isloading?<SpinnerContainer /> : children}</button>
         
         </div>)
 }

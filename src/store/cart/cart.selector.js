@@ -18,7 +18,7 @@ export const selectcartCount =createSelector(
         
         return (cartitems.reduce(
         (accumalator, currentelement) => accumalator + currentelement.quantity,
-        0
+        0    
       ))
     }
 );

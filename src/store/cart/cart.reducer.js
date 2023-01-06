@@ -14,6 +14,11 @@ import { CART_ACTION_TYPE } from "./cart.types";
           ...state,
           cartitems:payload
         }
+        case CART_ACTION_TYPE.PAYMENT_COMPLETE:
+          return {
+            ...state,
+            cartitems:[]
+          }
       case  CART_ACTION_TYPE.SET_IS_CART_OPENS:
         
         return {

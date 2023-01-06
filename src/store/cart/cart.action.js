@@ -63,3 +63,7 @@ const createAction =(type ,payload) =>({type , payload});
      const newCartItems= clearcartitem(cartitems, cartitemToremove);
     return createAction( CART_ACTION_TYPE.SET_CART_ITEMS ,newCartItems)
    };
+
+   export const paymentCompleted =() => {
+    return createAction(CART_ACTION_TYPE.PAYMENT_COMPLETE)
+   }
