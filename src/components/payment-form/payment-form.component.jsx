@@ -10,7 +10,8 @@ const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const billingAmount = useSelector(selectCartprice)
-  const {displayName} = useSelector(state=>state.user)
+  const {displayName} = useSelector(state=>state.user.currentUser)
+  console.log(displayName)
   const [processingPayment , setisprocessingPayment] = useState(false)
   const dispatch = useDispatch();
   const paymentHandler = async (event) => {
@@ -44,7 +45,7 @@ const PaymentForm = () => {
     })
     setisprocessingPayment(false)
     if(paymentResult.error){
-      console.log(paymentResult.error)
+      return alert("Payment Failed")
     } else if(paymentResult.paymentIntent.status==="succeeded"){
       alert("Payment Successful")
       dispatch(paymentCompleted());
